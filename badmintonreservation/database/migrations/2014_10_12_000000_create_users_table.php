@@ -15,10 +15,14 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
+            $table->timestamp('email_verified_at')->nullable(); // email認証
+            $table->enum('gender', ['male', 'female', 'other'])->nullable(); // 性別
+            $table->unsignedTinyInteger('age')->nullable(); // 年齢
             $table->string('password');
-            $table->rememberToken();
-            $table->timestamps();
+            $table->text('introduction')->nullable(); // 自己紹介
+            $table->string('image_url')->nullable(); // プロフィール画像url
+            $table->rememberToken(); // ログイン状態保存
+            $table->timestamps(); // created_at, updated_at            
         });
     }
 
