@@ -66,7 +66,7 @@ class FetchGyms extends Command
                 
                 // 次のページのトークンを取得（ページネーション用）
                 $pageToken = $results->getNextPageToken();
-            }　while ($pageToken); // 次のページがある限り繰り返す
+            } while ($pageToken); // 次のページがある限り繰り返す
         }
         
         $this->info('Gym data fetching completed.');
