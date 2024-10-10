@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,27 +15,35 @@ use App\Http\Controllers\PostController;
 |
 */
 
-Route::get('/', [PostController::class, 'index']);
+// トップページを投稿一覧に設定
+Route::get('/', [PostController::class, 'index'])->name('home');
 
-Route::get('/posts/{post}', [PostController::class ,'show']);
-// '/posts/{対象データのID}'にGetリクエストが来たら、PostControllerのshowメソッドを実行する
-
-Route::get('/', function () {
-    return view('welcome');
+// 投稿関連のルート
+Route::prefix('posts')->group(function () {
+    Route::get('/', [PostController::class, 'index'])->name('posts.index');
+    Route::get('/{post}', [PostController::class, 'show'])->name('posts.show');
+    
+    // 認証が必要なルート
+    Route::middleware('auth')->group(function () {
+        Route::get('/create', [PostController::class, 'create'])->name('posts.create');
+        Route::post('/', [PostController::class, 'store'])->name('posts.store');
+        // 編集と削除のルートも追加しておくと良いでしょう
+        // Route::get('/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
+        // Route::put('/{post}', [PostController::class, 'update'])->name('posts.update');
+        // Route::delete('/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+    });
 });
 
+// ダッシュボード
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+// プロフィール関連のルート
 Route::middleware('auth')->group(function () {
-Route::get('/posts/create', [PostController::class, 'create']);    
-Route::post('/posts/store', [PostController::class, 'store'])->name('posts.store');  
-    
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 require __DIR__.'/auth.php';
-?>

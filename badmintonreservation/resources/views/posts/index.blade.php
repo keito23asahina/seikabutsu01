@@ -2,21 +2,38 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
-        <title>Blog</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{{ config('app.name', 'Blog') }}</title>
         <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+         <!-- Styles -->
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            padding: 20px;
+        }
+        .post {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+    </style>
     </head>
     <body>
-        <h1>Blog Name</h1>
+        <h1>{{ config('app.name', 'Blog Name') }}</h1>
         <div class='posts'>
-            @foreach ($posts as $post)
+            @forelse ($posts as $post)
                 <div class='post'>
                     <h2 class='title'>
-                        <a href=/posts/{{ $post->id }}">{{ $post->title }}</a>
+                        <a href="{{ route('posts.show', $post) }}">{{ $post->title }}</a>
                     </h2>
-                    <p class='body'>{{ $post->body }}</p>
+                    <p class='body'>{{ Str::limit($post->body, 100) }}</p>
                 </div>
-            @endforeach
+            @empty
+                <p>とうこうがありません。</p>
+            @endforelse
         </div>
+        
+        {{ $posts->links() }}
     </body>
 </html>
