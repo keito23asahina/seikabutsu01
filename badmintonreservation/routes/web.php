@@ -15,6 +15,8 @@ use App\Http\Controllers\PostController;
 |
 */
 
+Route::get('/', [PostController::class, 'index']);
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -33,3 +35,4 @@ Route::post('/posts/store', [PostController::class, 'store'])->name('posts.store
 });
 
 require __DIR__.'/auth.php';
+?>
