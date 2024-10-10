@@ -47,6 +47,38 @@ class PostController extends Controller
     
         return redirect()->route('posts.show', $post)->with('success', '投稿が作成されました。');
     }
+    
+    public function edit(Post $post)
+    {
+        $this->authorize('update', $post);
+        $gyms = Gym::all();
+        return view('posts.edit', compact('post', 'gyms'));
+    }
+    
+    public function update(Request $request, Post $post)
+    {
+        $this->authorize('update', $post);
+        
+        $validatedData = $request->validate([
+            'title' => 'required|max:255',
+            'body' => 'required',
+            'gym_id' => 'required|exists:gyms,id',
+        ]);
+    
+        $post->update($validatedData);
+    
+        return redirect()->route('posts.show', $post)->with('success', '投稿が更新されました。');
+    }
+    
+    public function destroy(Post $post)
+    {
+        $this->authorize('delete', $post);
+        
+        $post->delete();
+    
+        return redirect()->route('posts.index')->with('success', '投稿が削除されました。');
+    }
+
 }
 
 
