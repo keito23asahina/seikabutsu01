@@ -18,9 +18,7 @@
                     <x-nav-link :href="route('posts.index')" :active="request()->routeIs('posts.index')">
                         {{ __('Posts') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('gyms.index')" :active="request()->routeIs('gyms.index')">
-                        {{ __('Gyms') }}
-                    </x-nav-link>
+
                 </div>
             </div>
 
@@ -46,9 +44,7 @@
                         <x-dropdown-link :href="route('posts.create')">
                             {{ __('Create Post') }}
                         </x-dropdown-link>
-                        <x-dropdown-link :href="route('user.posts')">
-                            {{ __('My Posts') }}
-                        </x-dropdown-link>
+
 
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
@@ -85,9 +81,7 @@
             <x-responsive-nav-link :href="route('posts.index')" :active="request()->routeIs('posts.index')">
                 {{ __('Posts') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('gyms.index')" :active="request()->routeIs('gyms.index')">
-                {{ __('Gyms') }}
-            </x-responsive-nav-link>
+
         </div>
 
         <!-- Responsive Settings Options -->

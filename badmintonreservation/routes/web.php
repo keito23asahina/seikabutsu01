@@ -20,22 +20,22 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [PostController::class, 'index'])->name('home');
 
 // 投稿関連のルート
-Route::prefix('posts')->group(function () {
-    Route::get('/', [PostController::class, 'index'])->name('posts.index');
-    Route::get('/{post}', [PostController::class, 'show'])->name('posts.show');
+Route::middleware('auth')->group(function () {
+    Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+
     
     // 認証が必要なルート
-    Route::middleware('auth')->group(function () {
-        Route::get('/create', [PostController::class, 'create'])->name('posts.create');
-        Route::post('/', [PostController::class, 'store'])->name('posts.store');
-        Route::get('/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
-        Route::put('/{post}', [PostController::class, 'update'])->name('posts.update');
-        Route::delete('/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
-        
-        // いいね機能のルート
-        Route::post('/{post}/like', [LikeController::class, 'store'])->name('posts.like');
-        Route::delete('/{post}/like', [LikeController::class, 'destroy'])->name('posts.unlike');
-    });
+    Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
+    Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
+    Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
+    Route::put('/posts/{post}', [PostController::class, 'update'])->name('posts.update');
+    Route::delete('/post/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+    
+    // いいね機能のルート
+    Route::post('/posts/{post}/like', [LikeController::class, 'store'])->name('posts.like');
+    Route::delete('/posts/{post}/like', [LikeController::class, 'destroy'])->name('posts.unlike');
+    
+    Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
 });
 
 // ダッシュボード
