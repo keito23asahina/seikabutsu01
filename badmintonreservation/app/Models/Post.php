@@ -21,6 +21,12 @@ class Post extends Model
         return $this->belongsTo(Gym::class);
     }
     
+    // いいねのリレーション
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+    
     public function getByLimit(int $limit_count = 10)
     {
         // updated_atで降順に並べたあと、limitで件数制限をかける

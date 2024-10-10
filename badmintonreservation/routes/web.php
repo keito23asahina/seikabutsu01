@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\LikeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,10 +28,13 @@ Route::prefix('posts')->group(function () {
     Route::middleware('auth')->group(function () {
         Route::get('/create', [PostController::class, 'create'])->name('posts.create');
         Route::post('/', [PostController::class, 'store'])->name('posts.store');
-        // 編集と削除のルートも追加しておくと良いでしょう
-        // Route::get('/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
-        // Route::put('/{post}', [PostController::class, 'update'])->name('posts.update');
-        // Route::delete('/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+        Route::get('/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
+        Route::put('/{post}', [PostController::class, 'update'])->name('posts.update');
+        Route::delete('/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+        
+        // いいね機能のルート
+        Route::post('/{post}/like', [LikeController::class, 'store'])->name('posts.like');
+        Route::delete('/{post}/like', [LikeController::class, 'destroy'])->name('posts.unlike');
     });
 });
 
