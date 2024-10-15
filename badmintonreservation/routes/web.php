@@ -4,6 +4,9 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\LikeController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LocationController;
+use App\Http\Controllers\GymController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +40,12 @@ Route::middleware('auth')->group(function () {
     
     Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
 });
+
+// 都道府県に基づく市区町村を取得するルート
+Route::get('/get-municipalities/{prefecture}', [LocationController::class, 'getMunicipalities']);
+
+// Google Places API を使用して体育館を検索するルート
+Route::get('/search-gyms', [GymController::class, 'searchGyms']);
 
 // ダッシュボード
 Route::get('/dashboard', function () {
